@@ -62,3 +62,6 @@ class DesignState:
 
         self.testcase: bool
         self.testcase = kwargs.pop("testcase", False)
+
+        self.define_offsets: bool
+        self.define_offsets = kwargs.pop("define_offsets", False)

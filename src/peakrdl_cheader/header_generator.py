@@ -206,6 +206,13 @@ class HeaderGenerator(RDLListener):
 
 
     def exit_AddressableComponent(self, node: AddressableNode) -> None:
+        if self.ds.define_offsets :
+            nodename = self.get_node_prefix(node).upper()
+            self.write(f"#define {nodename}__ADDR_OFFSET {node.raw_address_offset:#x} // byte offset from parent\n")
+            self.write(f"#define {nodename}__ABS_ADDRESS {node.raw_absolute_address + self.ds.inst_offset:#x}\n")
+
+            if node.is_array:
+                self.write(f"#define {nodename}__STRIDE {node.array_stride:#x}\n")
         if isinstance(node, (RegNode, MemNode)):
             # Registers and Mem handled elsewhere
             return
